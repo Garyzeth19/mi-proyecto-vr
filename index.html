@@ -1,18 +1,36 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="es">
   <head>
-    <meta charset="utf-8">
-    <title>Mobiliario en VR</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <meta charset="UTF-8" />
+    <title>Mi Proyecto VR - Mobiliario de Representación</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body style="margin: 0; overflow: hidden;">
-    <model-viewer 
-      src="models/mobiliario_representacion.glb"
-      camera-controls
-      auto-rotate
-      ar
-      vr
-      style="width: 100vw; height: 100vh;">
-    </model-viewer>
+
+  <body>
+    <a-scene>
+      <a-assets>
+        <!-- Modelo 3D -->
+        <a-asset-item id="modelo" src="mobiliario_representacion.glb"></a-asset-item>
+      </a-assets>
+
+      <a-entity 
+        gltf-model="#modelo" 
+        position="0 0 -3" 
+        rotation="0 45 0" 
+        scale="1 1 1">
+      </a-entity>
+
+      <!-- Cámara -->
+      <a-entity 
+        camera 
+        look-controls 
+        wasd-controls 
+        position="0 1.6 0">
+      </a-entity>
+
+      <!-- Cielo -->
+      <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
   </body>
 </html>
