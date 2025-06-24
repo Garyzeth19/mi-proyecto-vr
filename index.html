@@ -4,33 +4,80 @@
     <meta charset="UTF-8" />
     <title>Mi Proyecto VR - Mobiliario de Representación</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tizzle/aframe-orbit-controls-component@3.0.2/dist/aframe-orbit-controls-component.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #ui-buttons {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 999;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        background: #333;
+        color: white;
+      }
+    </style>
   </head>
 
   <body>
-    <a-scene>
+    <a-scene vr-mode-ui="enabled: true">
       <a-assets>
-        <!-- Modelo 3D -->
         <a-asset-item id="modelo" src="mobiliario_representacion.glb"></a-asset-item>
       </a-assets>
+
+      <a-entity 
+        id="cameraRig"
+        position="0 2 6"
+        orbit-controls="target: 0 1 0; 
+                        enableDamping: true; 
+                        dampingFactor: 0.1; 
+                        rotateSpeed:0.3; 
+                        zoomSpeed:0.8; 
+                        minDistance: 2; 
+                        maxDistance: 20;">
+        <a-entity 
+          camera
+          position="0 0 0">
+        </a-entity>
+      </a-entity>
 
       <a-entity 
         gltf-model="#modelo" 
         position="0 0 0" 
         rotation="0 45 0" 
-        scale="0.5 0.5 0.5">
+        scale="0.25 0.25 0.25">
       </a-entity>
 
-      <!-- Cámara más alejada para que se vea completo el modelo -->
-      <a-entity 
-        camera 
-        look-controls 
-        wasd-controls 
-        position="0 2 5">
-      </a-entity>
-
-      <!-- Cielo -->
       <a-sky color="#ECECEC"></a-sky>
     </a-scene>
+
+    <!-- Botones UI para zoom -->
+    <div id="ui-buttons">
+      <button onclick="zoomIn()">Zoom +</button>
+      <button onclick="zoomOut()">Zoom -</button>
+    </div>
+
+    <script>
+      function zoomIn() {
+        var cam = document.querySelector('#cameraRig').components['orbit-controls'];
+        cam.controls.dollyIn(1.2);
+        cam.controls.update();
+      }
+
+      function zoomOut() {
+        var cam = document.querySelector('#cameraRig').components['orbit-controls'];
+        cam.controls.dollyOut(1.2);
+        cam.controls.update();
+      }
+    </script>
+
   </body>
 </html>
