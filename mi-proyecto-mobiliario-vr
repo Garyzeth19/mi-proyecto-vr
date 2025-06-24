@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mi Proyecto VR - Mobiliario de Representación</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tizzle/aframe-orbit-controls-component@3.0.2/dist/aframe-orbit-controls-component.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #ui-buttons {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 999;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        background: #333;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a-scene vr-mode-ui="enabled: true">
+      <a-assets>
+        <a-asset-item id="modelo" src="mobiliario_representacion.glb"></a-asset-item>
+      </a-assets>
+
+      <a-entity 
+        id="cameraRig"
+        position="0 5 10"
+        orbit-controls="target: 0 2 0; 
+                        enableDamping: true; 
+                        dampingFactor: 0.1; 
+                        rotateSpeed:0.3; 
+                        zoomSpeed:0.8; 
+                        minDistance: 5; 
+                        maxDistance: 30;">
+        <a-entity 
+          camera
+          position="0 0 0">
+        </a-entity>
+      </a-entity>
+
+      <a-entity 
+        gltf-model="#modelo" 
+        position="0 0 0" 
+        rotation="0 45 0" 
+        scale="0.2 0.2 0.2">
+      </a-entity>
+
+      <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
+
+    <div id="ui-buttons">
+      <button onclick="zoomIn()">Zoom +</button>
+      <button onclick="zoomOut()">Zoom -</button>
+    </div>
+
+    <script>
+      function zoomIn() {
+        var cam = document.querySelector('#cameraRig').components['orbit-controls'];
+        cam.controls.dollyIn(1.2);
+        cam.controls.update();
+      }
+
+      function zoomOut() {
+        var cam = document.querySelector('#cameraRig').components['orbit-controls'];
+        cam.controls.dollyOut(1.2);
+        cam.controls.update();
+      }
+    </script>
+  </body>
+</html>
 
